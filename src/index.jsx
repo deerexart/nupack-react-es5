@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 var CalculateMarkup = React.createClass({
   getInitialState: function () {
-    return { initialinput:0, withJobMarkUp:0 };
+    return { initialinput:0, withJobMarkUp:0, isFoodState:false };
   },
 
   handleInitialCost: function(e) {
@@ -15,6 +15,37 @@ var CalculateMarkup = React.createClass({
                     });
 
   },
+  handleFood: function(e){
+  this.setState({ isFoodState: ! this.state.isFoodState})
+},
+handleClick: function() {
+
+  var jobMarkup = this.state.initialinput * 0.05;
+  var startRate = this.state.initialinput;
+  var flatRate = parseFloat(jobMarkup) + parseFloat(startRate);
+
+    if (this.state.isFoodState === true){
+    var isFood = .13 * flatRate;
+    }
+    else{ var isFood =  0; }
+
+
+  var finalCostCalculation = function(){
+    var finalCost =
+    parseFloat(isFood)
+
+
+   return finalCost;
+  }
+  var finalCostCalculated = finalCostCalculation();
+  this.setState({
+
+    foodMarkupCost: isFood,
+
+  });
+
+},
+
   render: function() {
     return (
 
@@ -30,7 +61,7 @@ var CalculateMarkup = React.createClass({
         <ul>
           <li>
           Is Food
-          <input id="isFood" type="checkbox"  />
+          <input id="isFood" type="checkbox" checked={this.state.isFood}  onChange={this.handleFood}  />
           </li>
 
           <li>
@@ -48,7 +79,7 @@ var CalculateMarkup = React.createClass({
 
         <p> Job Markup: </p>
         <p> People Markup: </p>
-        <p>Food Markup: </p>
+        <p>Food Markup: {this.state.foodMarkupCost} </p>
 
         <p>Electronics Markup: </p>
 
