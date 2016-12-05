@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 var CalculateMarkup = React.createClass({
   getInitialState: function () {
-    return { initialinput:0, withJobMarkUp:0, isFoodState:false,isPharmState:false, isElectronicState:false };
+    return { initialinput:0, withJobMarkUp:0, people:0, isFoodState:false,isPharmState:false, isElectronicState:false };
   },
 
   handleInitialCost: function(e) {
@@ -15,13 +15,16 @@ var CalculateMarkup = React.createClass({
                     });
 
   },
-handleFood: function(e){
+handlePeople: function(e){
+    this.setState({ people: e.target.value});
+  },
+handleFood: function(){
   this.setState({ isFoodState: ! this.state.isFoodState})
 },
-handleElectronic: function(e){
+handleElectronic: function(){
 this.setState({ isElectronicState: ! this.state.isElectronicState})
 },
-handlePharm: function(e){
+handlePharm: function(){
 this.setState({ isPharmState: ! this.state.isPharmState})
 },
 
@@ -29,7 +32,12 @@ handleClick: function() {
 
   var jobMarkup = this.state.initialinput * 0.05;
   var startRate = this.state.initialinput;
-  var flatRate = parseFloat(jobMarkup) + parseFloat(startRate);
+  var flatRate = parseFloat(jobMarkup)
+                 + parseFloat(startRate);
+  var people = this.state.people * 0.012;
+  var peopleCost = people * flatRate;
+  var peopleMarkup = parseFloat(people) * flatRate + flatRate;
+
 
     if (this.state.isFoodState === true){
     var isFood = .13 * flatRate;
@@ -48,7 +56,8 @@ handleClick: function() {
 
   var finalCostCalculation = function(){
     var finalCost =
-    parseFloat(isFood)
+    parseFloat(peopleCost)
+    + parseFloat(isFood)
     + parseFloat(isPharm)
     + parseFloat(isElectronic)
     + parseFloat(flatRate)
@@ -56,8 +65,10 @@ handleClick: function() {
    return finalCost;
   }
   var finalCostCalculated = finalCostCalculation();
+
   this.setState({
     jobMarkupRate: jobMarkup,
+    peopleMarkupCost: peopleCost,
     foodMarkupCost: isFood,
     electonicMarkupCost: isElectronic,
     pharmMarkupCost: isPharm,
@@ -78,7 +89,8 @@ handleClick: function() {
 
 
         <label ># of People </label>
-        <input id="noOfPeople" type="number" placeholder="no of people" />
+        <input id="noOfPeople" type="number" placeholder="no of people" onChange={this.handlePeople} />
+
         <ul>
           <li>
           Is Food
@@ -97,7 +109,8 @@ handleClick: function() {
         </ul>
 
         <p> Job Markup:  {this.state.jobMarkupRate } </p>
-        <p> People Markup: </p>
+        <p> With {this.state.people} people Markup Cost: {this.state.peopleMarkupCost} </p>
+
         <p>Food Markup: {this.state.foodMarkupCost} </p>
 
         <p>Electronics Markup: {this.state.electonicMarkupCost}</p>
