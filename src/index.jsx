@@ -2,15 +2,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 var CalculateMarkup = React.createClass({
+  getInitialState: function () {
+    return { initialinput:0, withJobMarkUp:0 };
+  },
 
+  handleInitialCost: function(e) {
+    //sets state based on input#initial-cost
+    this.setState({ initialinput: e.target.value,
+                    withJobMarkUp: (parseFloat(e.target.value)
+                                   * 0.05
+                                   + parseFloat(e.target.value))
+                    });
+
+  },
   render: function() {
     return (
 
       <div>
 
         <label >Initial Cost </label>
-        <input id="initial-cost" type="number"  />
-        <h3>With Job Rate: </h3>
+        <input id="initial-cost" type="number" onChange={ this.handleInitialCost }  />
+        <h3>With Job Markup: {this.state.withJobMarkUp}</h3>
+
 
         <label ># of People </label>
         <input id="noOfPeople" type="number" placeholder="no of people" />
