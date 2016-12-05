@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 var CalculateMarkup = React.createClass({
   getInitialState: function () {
-    return { initialinput:0, withJobMarkUp:0, isFoodState:false };
+    return { initialinput:0, withJobMarkUp:0, isFoodState:false,isPharmState:false, isElectronicState:false };
   },
 
   handleInitialCost: function(e) {
@@ -15,9 +15,16 @@ var CalculateMarkup = React.createClass({
                     });
 
   },
-  handleFood: function(e){
+handleFood: function(e){
   this.setState({ isFoodState: ! this.state.isFoodState})
 },
+handleElectronic: function(e){
+this.setState({ isElectronicState: ! this.state.isElectronicState})
+},
+handlePharm: function(e){
+this.setState({ isPharmState: ! this.state.isPharmState})
+},
+
 handleClick: function() {
 
   var jobMarkup = this.state.initialinput * 0.05;
@@ -29,18 +36,32 @@ handleClick: function() {
     }
     else{ var isFood =  0; }
 
+    if (this.state.isElectronicState === true){
+    var isElectronic = 0.02 * flatRate;
+    }
+    else{ var isElectronic =  0; }
+
+    if (this.state.isPharmState === true){
+    var isPharm = 0.075 * flatRate;
+    }
+    else{ var isPharm =  0; }
 
   var finalCostCalculation = function(){
     var finalCost =
     parseFloat(isFood)
-
+    + parseFloat(isPharm)
+    + parseFloat(isElectronic)
+    + parseFloat(flatRate)
 
    return finalCost;
   }
   var finalCostCalculated = finalCostCalculation();
   this.setState({
-
+    jobMarkupRate: jobMarkup,
     foodMarkupCost: isFood,
+    electonicMarkupCost: isElectronic,
+    pharmMarkupCost: isPharm,
+    finalCostEstimate: finalCostCalculated
 
   });
 
@@ -66,26 +87,25 @@ handleClick: function() {
 
           <li>
           Is Electronics
-          <input id="isElectronic" type="checkbox"   />
+          <input id="isElectronic" type="checkbox" checked={this.state.isElectronic}  onChange={this.handleElectronic} />
           </li>
 
         <li>
         Is Pharm
-          <input id="isPharm" type="checkbox"   />
+          <input id="isPharm" type="checkbox" checked={this.state.isPharm}  onChange={this.handlePharm} />
           </li>
         </ul>
 
-
-
-        <p> Job Markup: </p>
+        <p> Job Markup:  {this.state.jobMarkupRate } </p>
         <p> People Markup: </p>
         <p>Food Markup: {this.state.foodMarkupCost} </p>
 
-        <p>Electronics Markup: </p>
+        <p>Electronics Markup: {this.state.electonicMarkupCost}</p>
 
-        <p>With Pharm Markup: </p>
+        <p>With Pharm Markup: {this.state.pharmMarkupCost}</p>
 
-        <h2>Final Cost: </h2>
+        <h2>Final Cost: {this.state.finalCostEstimate}</h2>
+
 
         <input
           type="button"
