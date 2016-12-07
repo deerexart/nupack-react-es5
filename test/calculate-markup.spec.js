@@ -57,5 +57,22 @@ describe('<CalculateMarkup />', () => {
       initialInputSimulate.simulate('change', changedInput);
       expect(wrapper.state('initialinput')).to.equal(1299.99);
   });
+  /* TESTS handleInitialCost  */
 
+  it('Should start off as 0, handleInitialCost should update jobmark up based on updated input value ', ()=>{
+
+    const wrapper = shallow(<CalculateMarkup  />);
+    const handleInitialCost = wrapper.find('input#initial-cost')
+    const initialInputState = wrapper.state('initialinput');
+    const initialJobState = wrapper.state('withJobMarkUp');
+    const updatePeople = {target:{value:3}};
+    const updateInput = {target:{value:1299.99}};
+
+    expect(initialInputState).to.equal(0 );
+    expect(initialJobState).to.equal(0);
+    wrapper.instance().handleInitialCost(updateInput);
+    expect(wrapper.state('initialinput')).to.equal(1299.99);
+    expect(wrapper.state('withJobMarkUp')).to.equal(1364.9895);
+
+  })
 });
