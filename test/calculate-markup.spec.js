@@ -88,4 +88,24 @@ describe('<CalculateMarkup />', () => {
       handlePeople.simulate('change', changedInput);
       expect(wrapper.state('people')).to.equal(3);
   });
+
+  /* ####################### CHECKBOX TESTS #######################   */
+
+
+      it('should be defined for isFood, isPharm, isElectronics', () =>{
+
+        const wrapper = mount(<CalculateMarkup/>);
+        expect(wrapper.state().isFood).to.be.defined;
+        expect(wrapper.state().isElectronics).to.be.defined;
+        expect(wrapper.state().isPharm).to.be.defined;
+      })
+      it('should have states of false for isFood, isPharm, isElectronics', () =>{
+        const wrapper = mount(<CalculateMarkup/>);
+        const isFoodState = wrapper.state('isFoodState');
+
+        expect(wrapper.state('isFoodState')).to.be.false;
+        expect(wrapper.state('isElectronicState')).to.be.false;
+        expect(wrapper.state('isPharmState')).to.be.false;
+      })
+
 });
