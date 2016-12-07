@@ -43,5 +43,19 @@ describe('<CalculateMarkup />', () => {
     expect(wrapper.state().noOfPeople).to.be.defined;
 
   });
+  /* ###################### STATE AND FUNCTION TESTS ###################### */
+
+  // Testing package price fn/state before any markups
+  it('Test initial input state.. should be 0, on change should be 1299.99', ()=>{
+
+      const wrapper = mount(<CalculateMarkup  />);
+      const initialInputSimulate = wrapper.find('input#initial-cost');
+      const changedInput = {target:{value:1299.99}};
+      const initialInputState = wrapper.state('initialinput');
+
+      expect(initialInputState).to.equal(0);
+      initialInputSimulate.simulate('change', changedInput);
+      expect(wrapper.state('initialinput')).to.equal(1299.99);
+  });
 
 });
