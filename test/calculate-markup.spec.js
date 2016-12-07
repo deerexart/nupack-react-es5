@@ -232,8 +232,27 @@ describe('<CalculateMarkup />', () => {
         // All bool === false & people === 0
         //Therefore total should just be job markup + initial input
         expect(wrapper.state('finalCostEstimate')).to.equal(1364.9895);
-
-
       })
 
+      /* TESTING CALCULATE TOTAL: TEST 2 */
+      it('USING NUMBER OF PEOPLE... Should update total with people markup cost when input is changed ', ()=>{
+        //getting all the things
+        const wrapper = mount(<CalculateMarkup  />);
+        const totalCheck = wrapper.state('total');
+        const allStates = wrapper.state();
+        const calculateTotal = wrapper.find('calculateTotal');
+        const peopleInput = wrapper.find('input#people');
+        const handleInitialCost = wrapper.find('input#initial-cost')
+        const updatePeople = {target:{value:3}};
+        const updateTotal = wrapper.setState({
+          initialinput: 0,
+        })
+        const updateInput = {target:{value:1299.99}};
+
+        //making sure initial input is 0
+        expect(wrapper.state('initialinput')).to.equal(0 );
+        wrapper.instance().handleInitialCost(updateInput);
+        expect(wrapper.state('withJobMarkUp')).to.equal(1364.9895);
+
+      })
 });
