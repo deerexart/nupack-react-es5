@@ -75,4 +75,17 @@ describe('<CalculateMarkup />', () => {
     expect(wrapper.state('withJobMarkUp')).to.equal(1364.9895);
 
   })
+
+  //Testing number of people handler update & initial state
+  it('Test handlePeople state.. should be 0, on change should be 3', ()=>{
+
+      const wrapper = shallow(<CalculateMarkup  />);
+      const handlePeople = wrapper.find('input#noOfPeople');
+      const changedInput = {target:{value:3}};
+      const initialPeopleState = wrapper.state('people');
+      //actually simulate event
+      expect(initialPeopleState).to.equal(0);
+      handlePeople.simulate('change', changedInput);
+      expect(wrapper.state('people')).to.equal(3);
+  });
 });
