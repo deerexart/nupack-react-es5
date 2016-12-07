@@ -142,4 +142,67 @@ describe('<CalculateMarkup />', () => {
 
       });
 
+      /// ELECTRONICS BOOLEAN & STATE CHECKS
+      it('testing electronics checkbox boolean is false, and updating state to true... ', () =>{
+      const wrapper = mount(<CalculateMarkup />);
+      wrapper.setState({ isElectronicState: false });
+
+      let checkbox = wrapper.find({ type: 'checkbox', id:'isElectronic' });
+
+      expect(checkbox.props().checked).to.equal(false);
+
+      wrapper.setState({isElectronicState:true});
+      expect(checkbox.props().checked).to.equal(true);
+
+      });
+
+      it('checking check box function & states: isElectronics:false/isElectronicsMarkup:0.  When state of isElectronics===true, isElectronicsMarkup===.02', ()=>{
+
+          const wrapper = shallow(<CalculateMarkup  />);
+          const electronicCheck = wrapper.find('input#isElectronic');
+          const isElectronicsCheckState = wrapper.state('isElectronicState');
+          const isElectronicsMarkupState = wrapper.state('isElectronic');
+          const changeElectronicState = true;
+
+          expect(isElectronicsCheckState).to.equal(false);
+          expect(isElectronicsMarkupState).to.equal(0);
+
+          electronicCheck.simulate('change', changeElectronicState);
+
+          expect(wrapper.state('isElectronicState')).to.equal(true);
+          expect(wrapper.state('isElectronic')).to.equal(.02);
+
+      });
+      /// PHARM BOOLEAN & STATE CHECKS
+      it('SHOULD BE FALSE testing pharm checkbox boolean initial state ... ', () =>{
+      const wrapper = mount(<CalculateMarkup />);
+      wrapper.setState({ isPharmState: false });
+
+      let checkbox = wrapper.find({ type: 'checkbox', id:'isPharm' });
+
+      expect(checkbox.props().checked).to.equal(false);
+
+      wrapper.setState({isPharmState:true});
+      expect(checkbox.props().checked).to.equal(true);
+
+      });
+
+      it('checking check box function & states: isPharm:false/isPharmMarkup:0.  When state of isPharm===true, isPharmMarkup===.0.075', ()=>{
+
+          const wrapper = shallow(<CalculateMarkup  />);
+          const pharmCheck = wrapper.find('input#isPharm');
+          const isPharmCheckState = wrapper.state('isPharmState');
+          const isPharmMarkupState = wrapper.state('isPharm');
+          const changePharmState = true;
+
+          expect(isPharmCheckState).to.equal(false);
+          expect(isPharmMarkupState).to.equal(0);
+
+          pharmCheck.simulate('change', changePharmState);
+
+          expect(wrapper.state('isPharmState')).to.equal(true);
+          expect(wrapper.state('isPharm')).to.equal(.075);
+
+      });
+
 });
