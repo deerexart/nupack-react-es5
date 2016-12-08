@@ -255,4 +255,35 @@ describe('<CalculateMarkup />', () => {
         expect(wrapper.state('withJobMarkUp')).to.equal(1364.9895);
 
       })
+
+      /* TESTING CALCULATE TOTAL TEST: 3 */
+      it('USING JUST ISFOOD BOOLEAN... Should update total with food markup cost when isFood is true ', ()=>{
+        const wrapper = mount(<CalculateMarkup  />);
+        const totalCheck = wrapper.state('finalCostEstimate');
+        const allStates = wrapper.state();
+        const updateTotal = wrapper.setState({
+          initialinput: 1299.99,
+          withJobMarkUp:1364.9895,
+          people: 3
+
+        })
+        const foodCheck = wrapper.find('input#isFood');
+        const isFoodCheckState = wrapper.state('isFoodState');
+        const isFoodMarkupState = wrapper.state('isFood');
+        const changeFoodState = true;
+
+        expect(wrapper.state('initialinput')).to.equal(1299.99);
+        wrapper.instance().handleClick(updateTotal);
+        expect(wrapper.state('withJobMarkUp')).to.equal(1364.9895);
+        expect(wrapper.state('finalCostEstimate')).to.equal(1414.1291219999998);
+        expect(wrapper.state('isFoodState')).to.equal(false);
+
+
+        foodCheck.simulate('change', changeFoodState);
+        expect(wrapper.state('isFoodState')).to.equal(true);
+        wrapper.instance().handleClick(updateTotal);
+        expect(wrapper.state('finalCostEstimate')).to.equal(1591.577757);
+
+
+      })
 });
