@@ -11,6 +11,8 @@ Serve:
 Test:
 1. run npm test (in root folder)
 
+Runtime Version
+Node : v4.4.7
 
 That's it.  package.json has all dependencies needed
 
